@@ -3,6 +3,22 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{36ABFCD7-7533-48E7-8AB0-45EB2B38459A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiftLog.Backend.Api", "src\LiftLog.Backend.Api\LiftLog.Backend.Api.csproj", "{C5853F3B-A602-4574-9AE0-8EFD498A708D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiftLog.Backend.Application", "src\LiftLog.Backend.Application\LiftLog.Backend.Application.csproj", "{5DAB11F4-8414-4B2A-A1CC-636252C31906}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiftLog.Backend.Contracts", "src\LiftLog.Backend.Contracts\LiftLog.Backend.Contracts.csproj", "{BAF5421F-2993-43BB-9F68-AB95A16353D3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiftLog.Backend.Core", "src\LiftLog.Backend.Core\LiftLog.Backend.Core.csproj", "{E5BD93B3-CF9B-4813-8537-E109B90C3CB6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiftLog.Backend.Infrastructure", "src\LiftLog.Backend.Infrastructure\LiftLog.Backend.Infrastructure.csproj", "{E3D13248-5F40-41FD-B471-4863961EA623}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{08E70230-DC73-4036-BB5A-F14A1697B06B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiftLog.Backend.Tests", "tests\LiftLog.Backend.Tests\LiftLog.Backend.Tests.csproj", "{CCEDB195-D2FD-4EF0-A2D7-B590AE1F8734}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -10,5 +26,39 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C5853F3B-A602-4574-9AE0-8EFD498A708D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5853F3B-A602-4574-9AE0-8EFD498A708D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5853F3B-A602-4574-9AE0-8EFD498A708D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5853F3B-A602-4574-9AE0-8EFD498A708D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5DAB11F4-8414-4B2A-A1CC-636252C31906}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5DAB11F4-8414-4B2A-A1CC-636252C31906}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5DAB11F4-8414-4B2A-A1CC-636252C31906}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5DAB11F4-8414-4B2A-A1CC-636252C31906}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BAF5421F-2993-43BB-9F68-AB95A16353D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BAF5421F-2993-43BB-9F68-AB95A16353D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BAF5421F-2993-43BB-9F68-AB95A16353D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BAF5421F-2993-43BB-9F68-AB95A16353D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E5BD93B3-CF9B-4813-8537-E109B90C3CB6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E5BD93B3-CF9B-4813-8537-E109B90C3CB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E5BD93B3-CF9B-4813-8537-E109B90C3CB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E5BD93B3-CF9B-4813-8537-E109B90C3CB6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E3D13248-5F40-41FD-B471-4863961EA623}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3D13248-5F40-41FD-B471-4863961EA623}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3D13248-5F40-41FD-B471-4863961EA623}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3D13248-5F40-41FD-B471-4863961EA623}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CCEDB195-D2FD-4EF0-A2D7-B590AE1F8734}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CCEDB195-D2FD-4EF0-A2D7-B590AE1F8734}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CCEDB195-D2FD-4EF0-A2D7-B590AE1F8734}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CCEDB195-D2FD-4EF0-A2D7-B590AE1F8734}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C5853F3B-A602-4574-9AE0-8EFD498A708D} = {36ABFCD7-7533-48E7-8AB0-45EB2B38459A}
+		{5DAB11F4-8414-4B2A-A1CC-636252C31906} = {36ABFCD7-7533-48E7-8AB0-45EB2B38459A}
+		{BAF5421F-2993-43BB-9F68-AB95A16353D3} = {36ABFCD7-7533-48E7-8AB0-45EB2B38459A}
+		{E5BD93B3-CF9B-4813-8537-E109B90C3CB6} = {36ABFCD7-7533-48E7-8AB0-45EB2B38459A}
+		{E3D13248-5F40-41FD-B471-4863961EA623} = {36ABFCD7-7533-48E7-8AB0-45EB2B38459A}
+		{CCEDB195-D2FD-4EF0-A2D7-B590AE1F8734} = {08E70230-DC73-4036-BB5A-F14A1697B06B}
 	EndGlobalSection
 EndGlobal

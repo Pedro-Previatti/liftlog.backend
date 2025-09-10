@@ -1,0 +1,6 @@
+@LiftLog.Backend.Api_HostAddress = http://localhost:5079
+
+GET {{LiftLog.Backend.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
