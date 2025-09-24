@@ -6,14 +6,14 @@ namespace LiftLog.Backend.Core.Entities;
 
 public class ExerciseHistory : BaseEntity
 {
-    public required Guid ExerciseId { get; set; }
+    public required Guid ExerciseId { get; init; }
 
-    public required WeightUnit WeightUnit { get; set; }
+    public required WeightUnit WeightUnit { get; init; }
 
-    public required int Set { get; set; }
-    public required int Reps { get; set; }
+    public required int Set { get; init; }
+    public required int Reps { get; init; }
 
-    public required float Weight { get; set; }
+    public required float Weight { get; init; }
 
     protected ExerciseHistory() { }
 

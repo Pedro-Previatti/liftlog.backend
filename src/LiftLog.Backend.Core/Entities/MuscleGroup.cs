@@ -5,7 +5,7 @@ namespace LiftLog.Backend.Core.Entities;
 
 public class MuscleGroup : BaseEntity
 {
-    public required string Name { get; set; }
+    public required string Name { get; init; }
 
     protected MuscleGroup() { }
 

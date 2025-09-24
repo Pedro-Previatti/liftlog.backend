@@ -7,8 +7,8 @@ namespace LiftLog.Backend.Core.Entities;
 public class BaseEntity
 {
     public required Guid Id { get; init; }
-    public Guid CreatedBy { get; init; }
-    public Guid UpdatedBy { get; set; }
+    public Guid CreatedBy { get; protected init; }
+    public Guid UpdatedBy { get; protected set; }
 
     public required DateTime CreatedAtUtc { get; init; } = DateTime.UtcNow;
     public required DateTime UpdatedAtUtc { get; set; } = DateTime.UtcNow;

@@ -5,7 +5,7 @@ namespace LiftLog.Backend.Core.Entities;
 
 public class WorkoutHistory : BaseEntity
 {
-    public required List<Guid> WorkoutExercisesId { get; set; }
+    public required List<Guid> WorkoutExercisesId { get; init; }
 
     public required Guid WorkoutId { get; init; }
 
