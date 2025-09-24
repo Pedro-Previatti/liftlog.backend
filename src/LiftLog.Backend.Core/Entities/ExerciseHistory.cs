@@ -1,0 +1,49 @@
+using System.Diagnostics.CodeAnalysis;
+using LiftLog.Backend.Core.Enums;
+using LiftLog.Backend.Core.Validators;
+
+namespace LiftLog.Backend.Core.Entities;
+
+public class ExerciseHistory : BaseEntity
+{
+    public required Guid ExerciseId { get; set; }
+
+    public required WeightUnit WeightUnit { get; set; }
+
+    public required int Set { get; set; }
+    public required int Reps { get; set; }
+
+    public required float Weight { get; set; }
+
+    protected ExerciseHistory() { }
+
+    [SetsRequiredMembers]
+    private ExerciseHistory(
+        Guid createdBy,
+        Guid exerciseId,
+        WeightUnit weightUnit,
+        int set,
+        int reps,
+        float weight
+    )
+    {
+        CreatedBy = createdBy;
+
+        ExerciseId = exerciseId;
+        WeightUnit = weightUnit;
+        Set = set;
+        Reps = reps;
+        Weight = weight;
+
+        Validate(this, new ExerciseHistoryValidator());
+    }
+
+    public static ExerciseHistory Create(
+        Guid createdBy,
+        Guid exerciseId,
+        WeightUnit weightUnit,
+        int sets,
+        int reps,
+        float weight
+    ) => new(createdBy, exerciseId, weightUnit, sets, reps, weight);
+}
