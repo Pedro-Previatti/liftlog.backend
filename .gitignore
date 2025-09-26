@@ -469,3 +469,6 @@ $RECYCLE.BIN/
 
 # Verify files
 *.received.*
+
+# Enviroment settings
+.env
