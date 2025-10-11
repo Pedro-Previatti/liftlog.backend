@@ -2,6 +2,7 @@ using System.Net.Mail;
 using FluentValidation;
 using LiftLog.Backend.Core.Entities;
 using LiftLog.Backend.Core.Enums;
+using LiftLog.Backend.Core.Helpers;
 using LiftLog.Backend.Core.Shared;
 
 namespace LiftLog.Backend.Core.Validators;
@@ -55,25 +56,25 @@ public class UserValidator : AbstractValidator<User>
         RuleFor(x => x.Cpf)
             .NotEmpty()
             .WithMessage("CPF is required.")
-            .Must(IsValidCpf)
+            .Must(StringHelpers.IsValidCpf)
             .WithMessage("CPF must be in the format XXX.XXX.XXX-XX and be valid.");
 
         RuleFor(x => x.PhoneNumber)
             .NotEmpty()
             .WithMessage("PhoneNumber is required.")
-            .Must(IsValidPhoneNumber)
+            .Must(StringHelpers.IsValidPhoneNumber)
             .WithMessage("PhoneNumber must be in the format: +CC (AA) 99999-9999");
 
         RuleFor(x => x.Email)
             .NotEmpty()
             .WithMessage("Email is required.")
-            .Must(IsValidEmail)
+            .Must(StringHelpers.IsValidEmail)
             .WithMessage("Email is not a valid email address.");
 
         RuleFor(x => x.Password)
             .NotEmpty()
             .WithMessage("Password is required.")
-            .Must(RegexPatterns.BcryptPattern().IsMatch)
+            .Must(StringHelpers.IsCryptographedPassword)
             .WithMessage("Password must be stored in hash.");
 
         RuleFor(x => x.Height)
@@ -93,58 +94,5 @@ public class UserValidator : AbstractValidator<User>
                 || !float.IsInfinity(h.Value)
             )
             .WithMessage("Weight must be a valid positive number when provided.");
-    }
-
-    private static bool IsValidCpf(string cpf)
-    {
-        if (string.IsNullOrWhiteSpace(cpf))
-            return false;
-
-        if (!RegexPatterns.CpfPattern().IsMatch(cpf))
-            return false;
-
-        var numbers = RegexPatterns.OnlyNumbersPattern().Replace(cpf, "");
-        if (numbers.Length != 11)
-            return false;
-
-        if (numbers.Distinct().Count() == 1)
-            return false;
-
-        var digits = numbers.Select(c => c - '0').ToArray();
-
-        var sum = 0;
-        for (var i = 0; i < 9; i++)
-            sum += digits[i] * (10 - i);
-
-        var r = sum % 11;
-        var d10 = r < 2 ? 0 : 11 - r;
-        if (digits[9] != d10)
-            return false;
-
-        sum = 0;
-        for (var i = 0; i < 10; i++)
-            sum += digits[i] * (11 - i);
-
-        r = sum % 11;
-        var d11 = r < 2 ? 0 : 11 - r;
-        return digits[10] == d11;
-    }
-
-    private static bool IsValidPhoneNumber(string number) =>
-        !string.IsNullOrWhiteSpace(number) && RegexPatterns.PhoneNumberPattern().IsMatch(number);
-
-    private static bool IsValidEmail(string email)
-    {
-        if (string.IsNullOrWhiteSpace(email))
-            return false;
-        try
-        {
-            var addr = new MailAddress(email);
-            return string.Equals(addr.Address, email, StringComparison.Ordinal);
-        }
-        catch
-        {
-            return false;
-        }
     }
 }
