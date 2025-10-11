@@ -1,0 +1,10 @@
+**
+!*.sln
+!src/**/*.csproj
+!src/**/*.cs
+!src/**/appsettings.json
+!src/**/appsettings.Development.json
+!src/**/Data/*.csv
+!src/**/Dockerfile
+!src/
+.env

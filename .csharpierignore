@@ -1,0 +1,4 @@
+build/
+.nuke/
+.nuke/temp/
+src/LiftLog.Backend.Infrastructure/Persistence/Migrations
