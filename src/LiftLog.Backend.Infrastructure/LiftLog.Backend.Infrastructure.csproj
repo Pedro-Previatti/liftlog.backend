@@ -24,4 +24,7 @@
   <ItemGroup>
     <ProjectReference Include="..\LiftLog.Backend.Core\LiftLog.Backend.Core.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Persistence\Migrations\" />
+  </ItemGroup>
 </Project>
