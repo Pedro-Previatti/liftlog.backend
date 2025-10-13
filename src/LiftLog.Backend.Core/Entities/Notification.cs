@@ -1,6 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 
-namespace LiftLog.Backend.Core.Helpers;
+namespace LiftLog.Backend.Core.Entities;
 
 public class Notification
 {
@@ -14,5 +14,5 @@ public class Notification
         Message = message;
     }
 
-    public static Notification Add(string key, string message) => new(key, message);
+    public static Notification New(string key, string message) => new(key, message);
 }
