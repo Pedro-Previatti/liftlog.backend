@@ -5,8 +5,13 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
     <PackageReference Include="FluentValidation" Version="12.0.0" />
     <PackageReference Include="MediatR" Version="13.0.0" />
+    <PackageReference
+      Include="Microsoft.AspNetCore.Authentication.JwtBearer"
+      Version="8.0.0-rc.2.23480.2"
+    />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.0-rc.2.24474.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.0-rc.2.24474.1">
       <PrivateAssets>all</PrivateAssets>
@@ -21,5 +26,13 @@
       Version="9.0.0-rc.2.24473.5"
     />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.0-rc.2" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LiftLog.Backend.Contracts\LiftLog.Backend.Contracts.csproj" />
+    <ProjectReference Include="..\LiftLog.Backend.Core\LiftLog.Backend.Core.csproj" />
+    <ProjectReference Include="..\LiftLog.Backend.Infrastructure\LiftLog.Backend.Infrastructure.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Configuration\" />
   </ItemGroup>
 </Project>
