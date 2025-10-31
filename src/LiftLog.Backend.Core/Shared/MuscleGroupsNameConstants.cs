@@ -2,8 +2,8 @@ namespace LiftLog.Backend.Core.Shared;
 
 public static class MuscleGroupsNameConstants
 {
-    public const string Adductors = "Adductors";
     public const string Abductors = "Abductors";
+    public const string Adductors = "Adductors";
     public const string Back = "Back";
     public const string Biceps = "Biceps";
     public const string Calves = "Calves";
