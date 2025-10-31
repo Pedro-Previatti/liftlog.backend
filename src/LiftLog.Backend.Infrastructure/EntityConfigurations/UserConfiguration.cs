@@ -24,21 +24,19 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .HasColumnType("varchar(25)")
             .HasMaxLength(25);
 
-        builder.Property(x => x.Cpf).IsRequired().HasColumnType("varchar(15)").HasMaxLength(15);
+        builder.Property(x => x.Cpf).IsRequired().HasColumnType("varchar(20)").HasMaxLength(20);
 
         builder
             .Property(x => x.PhoneNumber)
             .IsRequired()
-            .HasColumnType("varchar(15)")
-            .HasMaxLength(15);
+            .HasColumnType("varchar(20)")
+            .HasMaxLength(20);
 
         builder.Property(x => x.Email).IsRequired().HasColumnType("varchar(100)").HasMaxLength(100);
 
-        builder
-            .Property(x => x.Password)
-            .IsRequired()
-            .HasColumnType("varchar(400)")
-            .HasMaxLength(400);
+        builder.Property(x => x.Password).IsRequired().HasColumnType("text").HasMaxLength(400);
+
+        builder.Property(x => x.SearchText).IsRequired().HasColumnType("text").HasMaxLength(300);
 
         builder.Property(x => x.Height).HasColumnType("real");
 
