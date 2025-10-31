@@ -10,9 +10,6 @@ public class ConfigurationException : Exception
     private ConfigurationException(string message)
         : base(message) { }
 
-    private ConfigurationException(string message, Exception innerException)
-        : base(message, innerException) { }
-
     private ConfigurationException(string message, IDictionary<string, string[]>? validationErrors)
         : base(message)
     {
@@ -39,17 +36,14 @@ public class ConfigurationException : Exception
     public static ConfigurationException FromFluentValidation(
         string message,
         IEnumerable<FluentValidation.Results.ValidationFailure> validationFailures
-    )
-    {
-        var validationFailuresArray = validationFailures.ToArray();
-
-        var errors = validationFailuresArray
-            .GroupBy(e => e.PropertyName)
-            .ToDictionary(
-                g => string.IsNullOrEmpty(g.Key) ? "General" : g.Key,
-                g => g.Select(e => e.ErrorMessage).ToArray()
-            );
-
-        return new ConfigurationException(message, errors);
-    }
+    ) =>
+        new(
+            message,
+            validationFailures
+                .GroupBy(e => e.PropertyName)
+                .ToDictionary(
+                    g => string.IsNullOrWhiteSpace(g.Key) ? "General" : g.Key,
+                    g => g.Select(e => e.ErrorMessage).ToArray()
+                )
+        );
 }

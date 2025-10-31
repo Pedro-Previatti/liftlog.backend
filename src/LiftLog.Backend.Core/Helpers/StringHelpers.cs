@@ -1,49 +1,62 @@
 using System.Net.Mail;
+using System.Text.RegularExpressions;
 using LiftLog.Backend.Core.Shared;
 
 namespace LiftLog.Backend.Core.Helpers;
 
-public class StringHelpers
+public static class StringHelpers
 {
-    public static bool IsValidCpf(string cpf)
+    private static readonly string[] SqlKeywords =
+    [
+        "--",
+        "/*",
+        "*/",
+        ";",
+        "SELECT",
+        "INSERT",
+        "UPDATE",
+        "DELETE",
+        "DROP",
+        "UNION",
+        "EXEC",
+        "EXECUTE",
+        "TRUNCATE",
+        "CREATE",
+        "ALTER",
+        "GRANT",
+        "REVOKE",
+        "MERGE",
+        "CALL",
+    ];
+
+    public static bool IsValidCpf(this string cpf)
     {
-        if (string.IsNullOrWhiteSpace(cpf))
-            return false;
+        var clean = new string(cpf.Where(char.IsDigit).ToArray());
 
-        if (!RegexPatterns.CpfPattern().IsMatch(cpf))
+        if (clean.Length != 11 || clean.Distinct().Count() == 1)
             return false;
-
-        var numbers = RegexPatterns.OnlyNumbersPattern().Replace(cpf, "");
-        if (numbers.Length != 11)
-            return false;
-
-        if (numbers.Distinct().Count() == 1)
-            return false;
-
-        var digits = numbers.Select(c => c - '0').ToArray();
 
         var sum = 0;
         for (var i = 0; i < 9; i++)
-            sum += digits[i] * (10 - i);
+            sum += (clean[i] - '0') * (10 - i);
 
-        var r = sum % 11;
-        var d10 = r < 2 ? 0 : 11 - r;
-        if (digits[9] != d10)
-            return false;
+        var remainder = sum % 11;
+        var first = remainder < 2 ? 0 : 11 - remainder;
 
         sum = 0;
         for (var i = 0; i < 10; i++)
-            sum += digits[i] * (11 - i);
+            sum += (clean[i] - '0') * (11 - i);
 
-        r = sum % 11;
-        var d11 = r < 2 ? 0 : 11 - r;
-        return digits[10] == d11;
+        remainder = sum % 11;
+        var second = remainder < 2 ? 0 : 11 - remainder;
+
+        return clean[9] - '0' == first && clean[10] - '0' == second;
     }
 
-    public static bool IsValidPhoneNumber(string number) =>
+    public static bool IsValidPhoneNumber(this string number) =>
         !string.IsNullOrWhiteSpace(number) && RegexPatterns.PhoneNumberPattern().IsMatch(number);
 
-    public static bool IsValidEmail(string email)
+    public static bool IsValidEmail(this string email)
     {
         if (string.IsNullOrWhiteSpace(email))
             return false;
@@ -58,6 +71,44 @@ public class StringHelpers
         }
     }
 
-    public static bool IsCryptographedPassword(string password) =>
+    public static bool IsCryptographedPassword(this string password) =>
         !string.IsNullOrWhiteSpace(password) && RegexPatterns.BcryptPattern().IsMatch(password);
+
+    public static bool IsSafeForSqlInput(this string? input)
+    {
+        if (string.IsNullOrEmpty(input))
+            return true;
+
+        var upperInput = input.ToUpper();
+
+        foreach (var keyword in SqlKeywords)
+        {
+            var pattern = @"\b" + Regex.Escape(keyword) + @"\b";
+            if (Regex.IsMatch(upperInput, pattern))
+            {
+                return false;
+            }
+        }
+
+        var singleQuoteCount = CountOccurrences(upperInput, '\'');
+        var doubleQuoteCount = CountOccurrences(upperInput, '"');
+
+        if (singleQuoteCount > 5 || doubleQuoteCount > 5)
+            return false;
+
+        var semicolonCount = CountOccurrences(upperInput, ';');
+
+        return !(semicolonCount > 2);
+    }
+
+    private static int CountOccurrences(this string text, char character)
+    {
+        var count = 0;
+
+        foreach (var c in text)
+            if (c == character)
+                count++;
+
+        return count;
+    }
 }

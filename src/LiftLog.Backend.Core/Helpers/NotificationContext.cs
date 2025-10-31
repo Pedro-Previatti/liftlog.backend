@@ -15,6 +15,9 @@ public class NotificationContext
         result
             .Errors.ToList()
             .ForEach(error =>
-                AddNotification(Notification.Add(error.ErrorCode, error.ErrorMessage))
+                AddNotification(Notification.New(error.ErrorCode, error.ErrorMessage))
             );
+
+    public void AddNotifications(IEnumerable<Notification> notifications) =>
+        notifications.ToList().ForEach(AddNotification);
 }
