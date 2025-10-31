@@ -10,8 +10,8 @@ public class MuscleGroupSeeder
 {
     private static readonly List<string> MuscleGroups =
     [
-        MuscleGroupsNameConstants.Adductors,
         MuscleGroupsNameConstants.Abductors,
+        MuscleGroupsNameConstants.Adductors,
         MuscleGroupsNameConstants.Back,
         MuscleGroupsNameConstants.Biceps,
         MuscleGroupsNameConstants.Calves,
