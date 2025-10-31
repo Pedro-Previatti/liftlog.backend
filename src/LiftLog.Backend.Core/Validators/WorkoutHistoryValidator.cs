@@ -23,6 +23,6 @@ public class WorkoutHistoryValidator : AbstractValidator<WorkoutHistory>
             .NotNull()
             .WithMessage("WorkoutId is required.")
             .Must(id => id != Guid.Empty)
-            .WithMessage("CreatedBy must be a valid Guid.");
+            .WithMessage("WorkoutId must be a valid Guid.");
     }
 }

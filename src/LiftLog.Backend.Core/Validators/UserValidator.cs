@@ -1,4 +1,3 @@
-using System.Net.Mail;
 using FluentValidation;
 using LiftLog.Backend.Core.Entities;
 using LiftLog.Backend.Core.Enums;
@@ -14,7 +13,7 @@ public class UserValidator : AbstractValidator<User>
         RuleFor(x => x.Type)
             .NotNull()
             .WithMessage("Type is required.")
-            .IsInEnum()
+            .Must(t => Enum.IsDefined(typeof(UserType), t))
             .WithMessage("Type must be a valid enum value.");
 
         RuleFor(x => x.Gender)
@@ -56,14 +55,16 @@ public class UserValidator : AbstractValidator<User>
         RuleFor(x => x.Cpf)
             .NotEmpty()
             .WithMessage("CPF is required.")
+            .Matches(RegexPatterns.CpfPattern())
+            .WithMessage("CPF must be in the format XXX.XXX.XXX-XX.")
             .Must(StringHelpers.IsValidCpf)
-            .WithMessage("CPF must be in the format XXX.XXX.XXX-XX and be valid.");
+            .WithMessage("CPF must be valid.");
 
         RuleFor(x => x.PhoneNumber)
             .NotEmpty()
             .WithMessage("PhoneNumber is required.")
             .Must(StringHelpers.IsValidPhoneNumber)
-            .WithMessage("PhoneNumber must be in the format: +CC (AA) 99999-9999");
+            .WithMessage("PhoneNumber must be in the format: +CC (AA) 99999-9999.");
 
         RuleFor(x => x.Email)
             .NotEmpty()
@@ -80,18 +81,22 @@ public class UserValidator : AbstractValidator<User>
         RuleFor(x => x.Height)
             .Must(h =>
                 h == null
-                || !float.IsNegative(h.Value)
-                || !float.IsNaN(h.Value)
-                || !float.IsInfinity(h.Value)
+                || (
+                    !float.IsNegative(h.Value)
+                    && !float.IsNaN(h.Value)
+                    && !float.IsInfinity(h.Value)
+                )
             )
             .WithMessage("Height must be a valid positive number when provided.");
 
         RuleFor(x => x.Weight)
-            .Must(h =>
-                h == null
-                || !float.IsNegative(h.Value)
-                || !float.IsNaN(h.Value)
-                || !float.IsInfinity(h.Value)
+            .Must(w =>
+                w == null
+                || (
+                    !float.IsNegative(w.Value)
+                    && !float.IsNaN(w.Value)
+                    && !float.IsInfinity(w.Value)
+                )
             )
             .WithMessage("Weight must be a valid positive number when provided.");
     }

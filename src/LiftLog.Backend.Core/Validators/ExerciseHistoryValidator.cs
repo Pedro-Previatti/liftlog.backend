@@ -35,13 +35,13 @@ public class ExerciseHistoryValidator : AbstractValidator<ExerciseHistory>
         RuleFor(x => x.Reps)
             .NotNull()
             .WithMessage("Reps is required.")
-            .Must(s => !int.IsNegative(s))
+            .Must(r => !int.IsNegative(r))
             .WithMessage("Reps must be a valid positive integer.");
 
         RuleFor(x => x.Weight)
             .NotNull()
             .WithMessage("Weight is required.")
-            .Must(s => !float.IsNegative(s) || !float.IsNaN(s) || !float.IsInfinity(s))
+            .Must(w => !float.IsNegative(w) && !float.IsNaN(w) && !float.IsInfinity(w))
             .WithMessage("Weight must be a valid positive number.");
     }
 }

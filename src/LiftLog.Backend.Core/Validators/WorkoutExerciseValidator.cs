@@ -28,7 +28,7 @@ public class WorkoutExerciseValidator : AbstractValidator<WorkoutExercise>
 
         RuleFor(x => x.WeightUnit)
             .Must(wu => Enum.IsDefined(typeof(WeightUnit), wu))
-            .WithMessage("WeightUnit must be a valid enum value when provided.");
+            .WithMessage("WeightUnit must be a valid enum value.");
 
         RuleFor(x => x.Sets)
             .NotNull()
@@ -39,13 +39,13 @@ public class WorkoutExerciseValidator : AbstractValidator<WorkoutExercise>
         RuleFor(x => x.Reps)
             .NotNull()
             .WithMessage("Reps is required.")
-            .Must(s => !int.IsNegative(s))
+            .Must(r => !int.IsNegative(r))
             .WithMessage("Reps must be a valid positive integer.");
 
         RuleFor(x => x.Weight)
             .NotNull()
             .WithMessage("Weight is required.")
-            .Must(s => !float.IsNegative(s) || !float.IsNaN(s) || !float.IsInfinity(s))
+            .Must(w => !float.IsNegative(w) && !float.IsNaN(w) && !float.IsInfinity(w))
             .WithMessage("Weight must be a valid positive number.");
     }
 }
