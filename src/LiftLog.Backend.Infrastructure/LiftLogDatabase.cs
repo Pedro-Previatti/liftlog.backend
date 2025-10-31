@@ -1,8 +1,6 @@
 using FluentValidation.Results;
 using LiftLog.Backend.Core.Entities;
-using LiftLog.Backend.Core.Helpers;
 using LiftLog.Backend.Infrastructure.Conventions;
-using LiftLog.Backend.Infrastructure.Seeds;
 using Microsoft.EntityFrameworkCore;
 
 namespace LiftLog.Backend.Infrastructure;
@@ -17,6 +15,8 @@ public class LiftLogDatabase : DbContext
     public DbSet<ExerciseHistory> ExerciseHistory => Set<ExerciseHistory>();
 
     public DbSet<MuscleGroup> MuscleGroups => Set<MuscleGroup>();
+
+    public DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
 
     public DbSet<User> Users => Set<User>();
 
@@ -33,6 +33,9 @@ public class LiftLogDatabase : DbContext
         builder.Ignore<ValidationFailure>();
         builder.Ignore<ValidationResult>();
         builder.Ignore<Notification>();
+
+        builder.HasPostgresExtension("uuid-ossp");
+        builder.HasPostgresExtension("unaccent");
 
         builder.ApplyConfigurationsFromAssembly(typeof(LiftLogDatabase).Assembly);
     }
