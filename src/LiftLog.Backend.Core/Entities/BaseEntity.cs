@@ -20,15 +20,13 @@ public class BaseEntity
     public bool Valid { get; private set; }
     public bool Invalid => !Valid;
 
-    protected bool Validate<TModel>(TModel model, AbstractValidator<TModel> validator)
+    protected void Validate<TModel>(TModel model, AbstractValidator<TModel> validator)
     {
         ValidationResult = validator.Validate(model);
         Valid = ValidationResult.IsValid;
 
         if (Invalid)
             _notificationContext.AddNotifications(ValidationResult);
-
-        return Valid;
     }
 
     public IReadOnlyList<Notification> GetNotifications() => _notificationContext.Notifications;

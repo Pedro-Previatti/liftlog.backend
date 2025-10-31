@@ -19,6 +19,7 @@ public class User : BaseEntity
     public required string PhoneNumber { get; set; }
     public required string Email { get; set; }
     public required string Password { get; set; }
+    public required string SearchText { get; set; }
 
     public float? Height { get; set; }
     public float? Weight { get; set; }
@@ -46,6 +47,7 @@ public class User : BaseEntity
         PhoneNumber = phoneNumber;
         Email = email;
         Password = password;
+        SearchText = $"{FirstName} {LastName} {Cpf} {PhoneNumber} {Email}";
 
         Validate(this, new UserValidator());
     }
@@ -61,7 +63,7 @@ public class User : BaseEntity
         string password
     ) => new(type, teacherId, firstName, lastName, cpf, phoneNumber, email, password);
 
-    public void Update(
+    public User Update(
         UserType? type = null,
         Gender? gender = null,
         HeightUnit? heightUnit = null,
@@ -118,6 +120,10 @@ public class User : BaseEntity
         if (weight.HasValue)
             Weight = weight.Value;
 
+        SearchText = $"{FirstName} {LastName} {Cpf} {PhoneNumber} {Email}";
+
         Validate(this, new UserValidator());
+
+        return this;
     }
 }

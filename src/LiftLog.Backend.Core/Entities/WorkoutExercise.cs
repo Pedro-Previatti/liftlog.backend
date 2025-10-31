@@ -57,6 +57,9 @@ public class WorkoutExercise : BaseEntity
         WeightUnit? weightUnit = null
     )
     {
+        if (updatedBy.Equals(Guid.Empty))
+            throw new ArgumentException("Workout UpdatedBy cannot be empty.", nameof(updatedBy));
+
         UpdatedBy = updatedBy;
         UpdatedAtUtc = DateTime.UtcNow;
 

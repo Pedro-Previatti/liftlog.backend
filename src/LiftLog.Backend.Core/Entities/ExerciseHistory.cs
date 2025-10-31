@@ -42,8 +42,8 @@ public class ExerciseHistory : BaseEntity
         Guid createdBy,
         Guid exerciseId,
         WeightUnit weightUnit,
-        int sets,
+        int set,
         int reps,
         float weight
-    ) => new(createdBy, exerciseId, weightUnit, sets, reps, weight);
+    ) => new(createdBy, exerciseId, weightUnit, set, reps, weight);
 }

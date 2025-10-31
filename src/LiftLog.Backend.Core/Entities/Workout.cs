@@ -44,6 +44,9 @@ public class Workout : BaseEntity
         string? name = null
     )
     {
+        if (updatedBy.Equals(Guid.Empty))
+            throw new ArgumentException("Workout UpdatedBy cannot be empty.", nameof(updatedBy));
+
         UpdatedBy = updatedBy;
         UpdatedAtUtc = DateTime.UtcNow;
 
@@ -54,7 +57,7 @@ public class Workout : BaseEntity
 
         if (createdForUserIds is not null && createdForUserIds.Count > 0)
             CreatedForUserIds.AddRange(
-                createdForUserIds.Where(userId => !WorkoutExerciseIds.Contains(userId))
+                createdForUserIds.Where(userId => !CreatedForUserIds.Contains(userId))
             );
 
         if (!string.IsNullOrWhiteSpace(name))
@@ -63,12 +66,28 @@ public class Workout : BaseEntity
         Validate(this, new WorkoutValidator());
     }
 
-    public void RemoveUserFromWorkout(Guid updatedBy, Guid userId)
+    public void RemoveExerciseFromWorkout(Guid updatedBy, Guid exerciseId)
     {
+        if (updatedBy.Equals(Guid.Empty))
+            throw new ArgumentException("Workout UpdatedBy cannot be empty.", nameof(updatedBy));
+
         UpdatedBy = updatedBy;
         UpdatedAtUtc = DateTime.UtcNow;
 
-        WorkoutExerciseIds.Remove(userId);
+        WorkoutExerciseIds.Remove(exerciseId);
+
+        Validate(this, new WorkoutValidator());
+    }
+
+    public void RemoveUserFromWorkout(Guid updatedBy, Guid userId)
+    {
+        if (updatedBy.Equals(Guid.Empty))
+            throw new ArgumentException("Workout UpdatedBy cannot be empty.", nameof(updatedBy));
+
+        UpdatedBy = updatedBy;
+        UpdatedAtUtc = DateTime.UtcNow;
+
+        CreatedForUserIds.Remove(userId);
 
         Validate(this, new WorkoutValidator());
     }
