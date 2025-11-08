@@ -1,25 +1,36 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-
     <IsPackable>false</IsPackable>
     <IsTestProject>true</IsTestProject>
   </PropertyGroup>
-
   <ItemGroup>
+    <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
+    <PackageReference Include="FluentAssertions" Version="8.7.1" />
     <PackageReference Include="FluentValidation" Version="12.0.0" />
+    <PackageReference
+      Include="Microsoft.AspNetCore.Authentication.JwtBearer"
+      Version="8.0.0-rc.2.23480.2"
+    />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.0-rc.2.24474.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.0-rc.2.24474.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="9.0.0-rc.2.24474.1" />
-    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="9.0.0-rc.2.24473.5" />
+    <PackageReference
+      Include="Microsoft.EntityFrameworkCore.Relational"
+      Version="9.0.0-rc.2.24474.1"
+    />
+    <PackageReference
+      Include="Microsoft.Extensions.Hosting.Abstractions"
+      Version="9.0.0-rc.2.24473.5"
+    />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.0" />
+    <PackageReference Include="Moq" Version="4.20.72" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.0-rc.2" />
+    <PackageReference Include="NUnit" Version="4.4.0" />
     <PackageReference Include="xunit" Version="2.4.2" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -30,5 +41,11 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
   </ItemGroup>
-
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\LiftLog.Backend.Api\LiftLog.Backend.Api.csproj" />
+    <ProjectReference Include="..\..\src\LiftLog.Backend.Application\LiftLog.Backend.Application.csproj" />
+    <ProjectReference Include="..\..\src\LiftLog.Backend.Contracts\LiftLog.Backend.Contracts.csproj" />
+    <ProjectReference Include="..\..\src\LiftLog.Backend.Core\LiftLog.Backend.Core.csproj" />
+    <ProjectReference Include="..\..\src\LiftLog.Backend.Infrastructure\LiftLog.Backend.Infrastructure.csproj" />
+  </ItemGroup>
 </Project>
