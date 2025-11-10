@@ -47,10 +47,7 @@ public class UpdateUserHandler(
             return Response<UserResponse>.Failure(_notificationContext.Notifications);
         }
 
-        var user = await _userRepository.FindAsync(
-            u => u.Id == userId,
-            cancellationToken
-        );
+        var user = await _userRepository.FindAsync(u => u.Id == userId, cancellationToken);
         if (user is null)
         {
             _notificationContext.AddNotification(
@@ -97,9 +94,7 @@ public class UpdateUserHandler(
 
             await _unitOfWork.CommitTransactionAsync(cancellationToken);
 
-            return Response<UserResponse>.Success(
-                UserResponse.FromEntity(result)
-            );
+            return Response<UserResponse>.Success(UserResponse.FromEntity(result));
         }
         catch
         {
