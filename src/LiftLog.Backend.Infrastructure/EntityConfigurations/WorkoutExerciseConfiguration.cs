@@ -16,7 +16,11 @@ public class WorkoutExerciseConfiguration : IEntityTypeConfiguration<WorkoutExer
 
         builder.Property(x => x.ExerciseId).IsRequired().HasColumnType("uuid");
 
-        builder.Property(x => x.ExerciseName).IsRequired().HasColumnType("varchar(50)").HasMaxLength(50);
+        builder
+            .Property(x => x.ExerciseName)
+            .IsRequired()
+            .HasColumnType("varchar(50)")
+            .HasMaxLength(50);
 
         builder.Property(x => x.Sets).IsRequired().HasColumnType("smallint");
 
