@@ -8,6 +8,8 @@ public class WorkoutExercise : BaseEntity
 {
     public required Guid ExerciseId { get; set; }
 
+    public required string ExerciseName { get; set; }
+
     public required WeightUnit WeightUnit { get; set; }
 
     public required int Sets { get; set; }
@@ -21,6 +23,7 @@ public class WorkoutExercise : BaseEntity
     private WorkoutExercise(
         Guid createdBy,
         Guid exerciseId,
+        string exerciseName,
         int sets,
         int reps,
         float weight,
@@ -31,6 +34,7 @@ public class WorkoutExercise : BaseEntity
         UpdatedBy = createdBy;
 
         ExerciseId = exerciseId;
+        ExerciseName = exerciseName;
         Sets = sets;
         Reps = reps;
         Weight = weight;
@@ -42,15 +46,17 @@ public class WorkoutExercise : BaseEntity
     public static WorkoutExercise Create(
         Guid createdBy,
         Guid exerciseId,
+        string exerciseName,
         int sets,
         int reps,
         float weight,
         WeightUnit weightUnit
-    ) => new(createdBy, exerciseId, sets, reps, weight, weightUnit);
+    ) => new(createdBy, exerciseId, exerciseName, sets, reps, weight, weightUnit);
 
     public void Update(
         Guid updatedBy,
         Guid? exerciseId = null,
+        string? exerciseName = null,
         int? sets = null,
         int? reps = null,
         float? weight = null,
@@ -63,9 +69,11 @@ public class WorkoutExercise : BaseEntity
         UpdatedBy = updatedBy;
         UpdatedAtUtc = DateTime.UtcNow;
 
-        if (exerciseId.HasValue)
+        if (exerciseId.HasValue && exerciseName is not null)
+        {
             ExerciseId = exerciseId.Value;
-
+            ExerciseName = exerciseName;
+        }
         if (sets.HasValue)
             Sets = sets.Value;
 

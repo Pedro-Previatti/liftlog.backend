@@ -8,6 +8,7 @@ public class WorkoutExerciseTests
     private readonly Guid _createdBy = Guid.NewGuid();
     private readonly Guid _exerciseId = Guid.NewGuid();
     private readonly Guid _emptyGuid = Guid.Empty;
+    private const string ExerciseName = "Name";
     private const WeightUnit KilogramUnit = WeightUnit.Kilograms;
     private const WeightUnit PoundUnit = WeightUnit.Pounds;
     private const WeightUnit InvalidUnit = (WeightUnit)int.MaxValue;
@@ -26,6 +27,7 @@ public class WorkoutExerciseTests
         var workoutExercise = WorkoutExercise.Create(
             _createdBy,
             _exerciseId,
+            ExerciseName,
             PositiveInteger,
             PositiveInteger,
             PositiveFloat,
@@ -53,6 +55,7 @@ public class WorkoutExerciseTests
         var workoutExercise = WorkoutExercise.Create(
             _emptyGuid,
             _emptyGuid,
+            ExerciseName,
             NegativeInteger,
             NegativeInteger,
             weight,
@@ -99,6 +102,7 @@ public class WorkoutExerciseTests
         var workoutExercise = WorkoutExercise.Create(
             _createdBy,
             _exerciseId,
+            ExerciseName,
             PositiveInteger,
             PositiveInteger,
             PositiveFloat,
@@ -107,6 +111,7 @@ public class WorkoutExerciseTests
         workoutExercise.Update(
             _createdBy,
             _exerciseId,
+            ExerciseName,
             PositiveInteger - 1,
             PositiveInteger - 1,
             PositiveFloat - 1,
@@ -130,6 +135,7 @@ public class WorkoutExerciseTests
         var workoutExercise = WorkoutExercise.Create(
             _createdBy,
             _exerciseId,
+            ExerciseName,
             PositiveInteger,
             PositiveInteger,
             PositiveFloat,
@@ -152,6 +158,7 @@ public class WorkoutExerciseTests
         var workoutExercise = WorkoutExercise.Create(
             _createdBy,
             _exerciseId,
+            ExerciseName,
             PositiveInteger,
             PositiveInteger,
             PositiveFloat,
@@ -160,6 +167,7 @@ public class WorkoutExerciseTests
         workoutExercise.Update(
             _createdBy,
             _emptyGuid,
+            ExerciseName,
             NegativeInteger,
             NegativeInteger,
             weight,
