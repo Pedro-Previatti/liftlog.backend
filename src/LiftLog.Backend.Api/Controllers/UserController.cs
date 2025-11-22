@@ -77,7 +77,7 @@ public class UserController(ISender sender, NotificationContext notificationCont
     /// <returns>
     /// A response containing a user's own data or validation errors.
     /// </returns>
-    [HttpGet("/self")]
+    [HttpGet("self")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Response<List<UserResponse>>))]
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(Response<>))]
     [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(UnauthorizedResult))]
@@ -100,7 +100,7 @@ public class UserController(ISender sender, NotificationContext notificationCont
     /// <returns>
     /// A response containing a user's own data or validation errors.
     /// </returns>
-    [HttpPut]
+    [HttpPatch]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Response<UserResponse>))]
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(Response<>))]
     [ProducesResponseType(StatusCodes.Status422UnprocessableEntity, Type = typeof(Response<>))]
