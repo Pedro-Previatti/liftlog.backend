@@ -30,6 +30,8 @@ public static class DependencyInjectionConfiguration
         builder.Services.AddScoped<IMuscleGroupRepository, MuscleGroupRepository>();
         builder.Services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
         builder.Services.AddScoped<IUserRepository, UserRepository>();
+        builder.Services.AddScoped<IWorkoutRepository, WorkoutRepository>();
+        builder.Services.AddScoped<IWorkoutExerciseRepository, WorkoutExerciseRepository>();
 
         builder.Services.AddTransient<MuscleGroupSeeder>();
         builder.Services.AddTransient<ExerciseSeeder>();
