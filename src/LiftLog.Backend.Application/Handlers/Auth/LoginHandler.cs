@@ -6,6 +6,7 @@ using LiftLog.Backend.Core.Helpers;
 using LiftLog.Backend.Core.Interfaces;
 using LiftLog.Backend.Core.Interfaces.Repositories;
 using MediatR;
+using Microsoft.Extensions.Logging;
 
 namespace LiftLog.Backend.Application.Handlers.Auth;
 
@@ -57,11 +58,7 @@ public class LoginHandler(
         try
         {
             var existingToken = await _refreshTokenRepository.FindAsync(
-                x =>
-                    x.UserId == user.Id
-                    && x.IsValid()
-                    && (!x.IsUsed || !x.IsRevoked)
-                    && x.Expires <= DateTime.UtcNow,
+                x => x.UserId == user.Id && (!x.IsUsed || !x.IsRevoked),
                 cancellationToken
             );
             if (existingToken is not null)
