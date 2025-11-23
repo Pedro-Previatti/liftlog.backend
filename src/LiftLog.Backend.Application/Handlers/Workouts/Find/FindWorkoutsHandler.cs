@@ -73,13 +73,13 @@ public class FindWorkoutsHandler(
 
         if (request.WorkoutId.HasValue)
             workouts = await _workoutRepository.FindMultipleAsync(
-                x => x.CreatedForUserIds.Contains(requestingUser.Id) && x.Id == request.WorkoutId,
+                x => x.CreatedBy == requestingUserId && x.Id == request.WorkoutId,
                 cancellationToken
             );
         else if (request.Search is not null)
             workouts = await _workoutRepository.FindMultipleAsync(
                 x =>
-                    x.CreatedForUserIds.Contains(requestingUser.Id)
+                    x.CreatedBy == requestingUserId
                     && EF.Functions.ILike(
                         EF.Functions.Unaccent(x.Name),
                         EF.Functions.Unaccent($"%{request.Search}%")
@@ -88,9 +88,7 @@ public class FindWorkoutsHandler(
             );
         else
             workouts = await _workoutRepository.FindMultipleAsync(
-                x =>
-                    x.CreatedForUserIds.Contains(requestingUser.Id)
-                    || x.CreatedBy == requestingUser.Id,
+                x => x.CreatedBy == requestingUserId,
                 cancellationToken
             );
 
