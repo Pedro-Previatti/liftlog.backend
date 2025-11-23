@@ -66,7 +66,7 @@ public class UpdateUserValidator : AbstractValidator<UpdateUserRequest>
                     .Must(x => x.HasValue && x != Guid.Empty)
                     .WithMessage("TeacherId must be a valid Guid when provided.")
                     .Must(x => x.ToString().IsSafeForSqlInput())
-                    .WithMessage("Password contains invalid characters.");
+                    .WithMessage("TeacherId contains invalid characters.");
             }
         );
 
