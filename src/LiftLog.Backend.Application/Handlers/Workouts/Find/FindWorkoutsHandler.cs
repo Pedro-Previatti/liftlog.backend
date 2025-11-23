@@ -102,10 +102,7 @@ public class FindWorkoutsHandler(
             return Response<List<WorkoutResponse>>.Failure(_notificationContext.Notifications);
         }
 
-        var ids = workouts
-            .SelectMany(w => w.WorkoutExerciseIds)
-            .Distinct()
-            .ToList();
+        var ids = workouts.SelectMany(w => w.WorkoutExerciseIds).Distinct().ToList();
 
         var workoutExercises = await _workoutExerciseRepository.FindMultipleAsync(
             x => ids.Contains(x.Id),
