@@ -8,7 +8,6 @@ using LiftLog.Backend.Core.Interfaces;
 using LiftLog.Backend.Core.Interfaces.Repositories;
 using MediatR;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
 
 namespace LiftLog.Backend.Application.Handlers.Workouts.Create;
 
