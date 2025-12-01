@@ -1,5 +1,6 @@
 using LiftLog.Backend.Application.Validators;
 using LiftLog.Backend.Application.Validators.Workouts.Create;
+using LiftLog.Backend.Application.Validators.Workouts.Delete;
 using LiftLog.Backend.Application.Validators.Workouts.Find;
 using LiftLog.Backend.Contracts.Requests.Workouts;
 using LiftLog.Backend.Contracts.Responses;
@@ -79,7 +80,6 @@ public class WorkoutController(ISender sender, NotificationContext notificationC
     /// </returns>
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Response<>))]
-    [ProducesResponseType(StatusCodes.Status204NoContent, Type = typeof(NoContent))]
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(Response<>))]
     [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(UnauthorizedResult))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(NotFoundResult))]
@@ -103,5 +103,37 @@ public class WorkoutController(ISender sender, NotificationContext notificationC
                 : BadRequest(response);
 
         return Ok(value: response.Data);
+    }
+
+    /// <summary>
+    /// Handles a workout deletion
+    /// </summary>
+    /// <returns></returns>
+    [HttpDelete("{id:guid}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent, Type = typeof(NoContent))]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(UnauthorizedResult))]
+    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(NotFoundResult))]
+    [ProducesResponseType(StatusCodes.Status422UnprocessableEntity, Type = typeof(Response<>))]
+    public async Task<IActionResult> Delete([FromHeader] Guid id)
+    {
+        var request = new DeleteWorkoutRequest(id);
+
+        if (!_validator.Validate(request, new DeleteWorkoutValidator()))
+        {
+            foreach (var error in _validator.NotificationContext.Notifications)
+                _notificationContext.AddNotification(error);
+            return UnprocessableEntity(
+                Response<List<WorkoutResponse>>.Failure(_notificationContext.Notifications)
+            );
+        }
+
+        var response = await _sender.Send(request);
+
+        if (!response.Successful)
+            return response.Errors?.Any(e => e.Key.Equals("NotFound")) == true
+                ? NotFound()
+                : BadRequest(response);
+
+        return NoContent();
     }
 }
