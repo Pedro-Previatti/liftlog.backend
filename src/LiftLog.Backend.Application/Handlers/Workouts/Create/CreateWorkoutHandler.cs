@@ -135,7 +135,13 @@ public class CreateWorkoutHandler(
             var workoutExerciseIds = workoutExercises.Select(x => x.Id).ToList();
 
             var workout = await _workoutRepository.CreateAsync(
-                Workout.Create(workoutExerciseIds, [user.Id], user.Id, request.Name),
+                Workout.Create(
+                    workoutExerciseIds,
+                    [user.Id],
+                    user.Id,
+                    request.Name,
+                    request.DayOfWeek
+                ),
                 cancellationToken
             );
 

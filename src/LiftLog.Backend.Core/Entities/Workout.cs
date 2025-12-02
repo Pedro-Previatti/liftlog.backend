@@ -10,6 +10,8 @@ public class Workout : BaseEntity
 
     public required string Name { get; set; }
 
+    public required DayOfWeek DayOfWeek { get; set; }
+
     protected Workout() { }
 
     [SetsRequiredMembers]
@@ -17,7 +19,8 @@ public class Workout : BaseEntity
         List<Guid> workoutExerciseIds,
         List<Guid> createdForUserIds,
         Guid createdBy,
-        string name
+        string name,
+        DayOfWeek dayOfWeek
     )
     {
         CreatedBy = createdBy;
@@ -26,6 +29,7 @@ public class Workout : BaseEntity
         CreatedForUserIds = createdForUserIds;
         WorkoutExerciseIds = workoutExerciseIds;
         Name = name;
+        DayOfWeek = dayOfWeek;
 
         Validate(this, new WorkoutValidator());
     }
@@ -34,14 +38,16 @@ public class Workout : BaseEntity
         List<Guid> workoutExerciseIds,
         List<Guid> createdForUserIds,
         Guid createdBy,
-        string name
-    ) => new(workoutExerciseIds, createdForUserIds, createdBy, name);
+        string name,
+        DayOfWeek dayOfWeek
+    ) => new(workoutExerciseIds, createdForUserIds, createdBy, name, dayOfWeek);
 
     public void Update(
         Guid updatedBy,
         List<Guid>? workoutExerciseIds = null,
         List<Guid>? createdForUserIds = null,
-        string? name = null
+        string? name = null,
+        DayOfWeek? dayOfWeek = null
     )
     {
         if (updatedBy.Equals(Guid.Empty))
@@ -62,6 +68,9 @@ public class Workout : BaseEntity
 
         if (!string.IsNullOrWhiteSpace(name))
             Name = name;
+
+        if (dayOfWeek.HasValue)
+            DayOfWeek = dayOfWeek.Value;
 
         Validate(this, new WorkoutValidator());
     }

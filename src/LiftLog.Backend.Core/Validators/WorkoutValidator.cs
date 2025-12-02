@@ -32,5 +32,11 @@ public class WorkoutValidator : AbstractValidator<Workout>
             .WithMessage("Name must have more than 2 characters.")
             .MaximumLength(30)
             .WithMessage("Name must be up to 30 characters.");
+
+        RuleFor(x => x.DayOfWeek)
+            .NotNull()
+            .WithMessage("Day of the week is required.")
+            .Must(t => Enum.IsDefined(typeof(DayOfWeek), t))
+            .WithMessage("Day of the week must be a valid enum value.");
     }
 }

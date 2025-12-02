@@ -15,12 +15,20 @@ public class WorkoutTests
     private const string Name = "Workout";
     private const string NewName = "NewName";
     private const string LargeName = "Large Name Would Be Unusual For A Workout";
+    private const DayOfWeek CorrectDayOfWeek = DayOfWeek.Monday;
+    private const DayOfWeek IncorrectDayOfWeek = (DayOfWeek)int.MaxValue;
 
     [Fact(DisplayName = "Workout => Create() Returns Success")]
     [Trait("Category", "Entity")]
     public void Workout_Create_ReturnsSuccess()
     {
-        var workout = Workout.Create(_testExListIds, _testUserListIds, _createdBy, Name);
+        var workout = Workout.Create(
+            _testExListIds,
+            _testUserListIds,
+            _createdBy,
+            Name,
+            CorrectDayOfWeek
+        );
 
         Assert.NotNull(workout);
         Assert.True(workout.Valid);
@@ -41,10 +49,28 @@ public class WorkoutTests
     [Trait("Category", "Entity")]
     public void Workout_Create_ReturnsFailure()
     {
-        var workoutOne = Workout.Create([], [], _guidEmpty, _stringEmpty);
-        var workoutTwo = Workout.Create(_testExListIds, _testUserListIds, _createdBy, SmallName);
-        var workoutThree = Workout.Create(_testExListIds, _testUserListIds, _createdBy, LargeName);
-        var workoutFour = Workout.Create([_guidEmpty], [_guidEmpty], _createdBy, Name);
+        var workoutOne = Workout.Create([], [], _guidEmpty, _stringEmpty, IncorrectDayOfWeek);
+        var workoutTwo = Workout.Create(
+            _testExListIds,
+            _testUserListIds,
+            _createdBy,
+            SmallName,
+            IncorrectDayOfWeek
+        );
+        var workoutThree = Workout.Create(
+            _testExListIds,
+            _testUserListIds,
+            _createdBy,
+            LargeName,
+            IncorrectDayOfWeek
+        );
+        var workoutFour = Workout.Create(
+            [_guidEmpty],
+            [_guidEmpty],
+            _createdBy,
+            Name,
+            IncorrectDayOfWeek
+        );
 
         Assert.True(workoutOne.Invalid);
         CollectionAssert.IsNotEmpty(workoutOne.GetNotifications());
@@ -62,6 +88,10 @@ public class WorkoutTests
             x => x.Message == "CreatedForUserIds must be a valid list of Guids."
         );
         Assert.Contains(workoutOneNotifications, x => x.Message == "Name is required.");
+        Assert.Contains(
+            workoutOneNotifications,
+            x => x.Message == "Day of the week must be a valid enum value."
+        );
 
         Assert.True(workoutTwo.Invalid);
         CollectionAssert.IsNotEmpty(workoutTwo.GetNotifications());
@@ -70,6 +100,10 @@ public class WorkoutTests
             workoutTwoNotifications,
             x => x.Message == "Name must have more than 2 characters."
         );
+        Assert.Contains(
+            workoutTwoNotifications,
+            x => x.Message == "Day of the week must be a valid enum value."
+        );
 
         Assert.True(workoutThree.Invalid);
         CollectionAssert.IsNotEmpty(workoutThree.GetNotifications());
@@ -77,6 +111,10 @@ public class WorkoutTests
         Assert.Contains(
             workoutThreeNotifications,
             x => x.Message == "Name must be up to 30 characters."
+        );
+        Assert.Contains(
+            workoutThreeNotifications,
+            x => x.Message == "Day of the week must be a valid enum value."
         );
 
         Assert.True(workoutFour.Invalid);
@@ -90,13 +128,23 @@ public class WorkoutTests
             workoutFourNotifications,
             x => x.Message == "CreatedForUserIds must be a valid list of Guids."
         );
+        Assert.Contains(
+            workoutFourNotifications,
+            x => x.Message == "Day of the week must be a valid enum value."
+        );
     }
 
     [Fact(DisplayName = "Workout => Update() Returns Success")]
     [Trait("Category", "Entity")]
     public void Workout_Update_ReturnsSuccess()
     {
-        var workout = Workout.Create(_testExListIds, _testUserListIds, _createdBy, Name);
+        var workout = Workout.Create(
+            _testExListIds,
+            _testUserListIds,
+            _createdBy,
+            Name,
+            CorrectDayOfWeek
+        );
         var existingWorkoutGuid = workout.WorkoutExerciseIds.First();
         var existingUserGuid = workout.CreatedForUserIds.First();
         workout.Update(
@@ -127,7 +175,13 @@ public class WorkoutTests
     [Trait("Category", "Entity")]
     public void Workout_Update_ThrowsArgumentException()
     {
-        var workout = Workout.Create(_testExListIds, _testUserListIds, _createdBy, Name);
+        var workout = Workout.Create(
+            _testExListIds,
+            _testUserListIds,
+            _createdBy,
+            Name,
+            CorrectDayOfWeek
+        );
 
         Assert.Throws<ArgumentException>(() => workout.Update(Guid.Empty, _testExListIds));
     }
@@ -136,8 +190,14 @@ public class WorkoutTests
     [Trait("Category", "Entity")]
     public void Workout_Update_ReturnsInvalid()
     {
-        var workout = Workout.Create(_testExListIds, _testUserListIds, _createdBy, Name);
-        workout.Update(_createdBy, [_guidEmpty], [_guidEmpty], LargeName);
+        var workout = Workout.Create(
+            _testExListIds,
+            _testUserListIds,
+            _createdBy,
+            Name,
+            CorrectDayOfWeek
+        );
+        workout.Update(_createdBy, [_guidEmpty], [_guidEmpty], LargeName, IncorrectDayOfWeek);
 
         Assert.True(workout.Invalid);
         CollectionAssert.IsNotEmpty(workout.GetNotifications());
@@ -154,13 +214,23 @@ public class WorkoutTests
             workoutNotifications,
             x => x.Message == "Name must be up to 30 characters."
         );
+        Assert.Contains(
+            workoutNotifications,
+            x => x.Message == "Day of the week must be a valid enum value."
+        );
     }
 
     [Fact(DisplayName = "Workout => RemoveExerciseFromWorkout() Returns Success")]
     [Trait("Category", "Entity")]
     public void Workout_RemoveExerciseFromWorkout_ReturnsSuccess()
     {
-        var workout = Workout.Create(_testExListIds, _testUserListIds, _createdBy, Name);
+        var workout = Workout.Create(
+            _testExListIds,
+            _testUserListIds,
+            _createdBy,
+            Name,
+            CorrectDayOfWeek
+        );
         var removeGuid = _testExListIds[0];
         workout.RemoveExerciseFromWorkout(_createdBy, removeGuid);
 
@@ -175,7 +245,13 @@ public class WorkoutTests
     [Trait("Category", "Entity")]
     public void Workout_RemoveExerciseFromWorkout_ThrowsArgumentException()
     {
-        var workout = Workout.Create(_testExListIds, _testUserListIds, _createdBy, Name);
+        var workout = Workout.Create(
+            _testExListIds,
+            _testUserListIds,
+            _createdBy,
+            Name,
+            CorrectDayOfWeek
+        );
 
         Assert.Throws<ArgumentException>(() =>
             workout.RemoveExerciseFromWorkout(Guid.Empty, _newExGuid)
@@ -186,7 +262,13 @@ public class WorkoutTests
     [Trait("Category", "Entity")]
     public void Workout_RemoveUserFromWorkout_ReturnsSuccess()
     {
-        var workout = Workout.Create(_testExListIds, _testUserListIds, _createdBy, Name);
+        var workout = Workout.Create(
+            _testExListIds,
+            _testUserListIds,
+            _createdBy,
+            Name,
+            CorrectDayOfWeek
+        );
         var removeGuid = _testUserListIds[0];
         workout.RemoveUserFromWorkout(_createdBy, removeGuid);
 
@@ -201,7 +283,13 @@ public class WorkoutTests
     [Trait("Category", "Entity")]
     public void Workout_RemoveUserFromWorkout_ThrowsArgumentException()
     {
-        var workout = Workout.Create(_testExListIds, _testUserListIds, _createdBy, Name);
+        var workout = Workout.Create(
+            _testExListIds,
+            _testUserListIds,
+            _createdBy,
+            Name,
+            CorrectDayOfWeek
+        );
 
         Assert.Throws<ArgumentException>(() =>
             workout.RemoveUserFromWorkout(Guid.Empty, _newExGuid)

@@ -38,7 +38,10 @@ public class DeleteWorkoutHandler(
     private readonly IHttpContextAccessor _httpContextAccessor =
         httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));
 
-    public async Task<Response<bool>> Handle(DeleteWorkoutRequest request, CancellationToken cancellationToken)
+    public async Task<Response<bool>> Handle(
+        DeleteWorkoutRequest request,
+        CancellationToken cancellationToken
+    )
     {
         var userIdClaim = _httpContextAccessor
             .HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier)
@@ -68,20 +71,22 @@ public class DeleteWorkoutHandler(
 
         try
         {
-            var workout = await _workoutRepository.FindAsync(x => x.Id == request.Id, cancellationToken);
+            var workout = await _workoutRepository.FindAsync(
+                x => x.Id == request.Id,
+                cancellationToken
+            );
             if (workout is null)
             {
                 _notificationContext.AddNotification(
-                    Notification.New(
-                        "NotFound",
-                        "Workout not found with provided in request."
-                    )
+                    Notification.New("NotFound", "Workout not found with provided in request.")
                 );
                 return Response<bool>.Failure(_notificationContext.Notifications);
             }
 
-            var workoutExercises = await _workoutExerciseRepository.FindMultipleAsync(x => workout.WorkoutExerciseIds.Contains(x.Id),
-                cancellationToken);
+            var workoutExercises = await _workoutExerciseRepository.FindMultipleAsync(
+                x => workout.WorkoutExerciseIds.Contains(x.Id),
+                cancellationToken
+            );
 
             if (workoutExercises.Count > 0)
             {
