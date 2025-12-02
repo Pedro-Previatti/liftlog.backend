@@ -9,6 +9,7 @@ public class WorkoutResponse
     public required Guid CreatedBy { get; set; }
     public required DateTime UpdatedAtUtc { get; set; }
     public required string Name { get; set; }
+    public required DayOfWeek DayOfWeek { get; set; }
     public required List<WorkoutExerciseResponse> Exercises { get; set; }
     public required List<Guid> HasAccess { get; set; }
 
@@ -18,6 +19,7 @@ public class WorkoutResponse
         Guid createdBy,
         DateTime updatedAtUtc,
         string name,
+        DayOfWeek dayOfWeek,
         List<WorkoutExerciseResponse> exercises,
         List<Guid> hasAccess
     )
@@ -26,6 +28,7 @@ public class WorkoutResponse
         CreatedBy = createdBy;
         UpdatedAtUtc = updatedAtUtc;
         Name = name;
+        DayOfWeek = dayOfWeek;
         Exercises = exercises;
         HasAccess = hasAccess;
     }
@@ -39,6 +42,7 @@ public class WorkoutResponse
             workout.CreatedBy,
             workout.UpdatedAtUtc,
             workout.Name,
+            workout.DayOfWeek,
             exercises,
             workout.CreatedForUserIds
         );
